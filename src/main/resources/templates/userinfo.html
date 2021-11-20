@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home page of t${}</title>
+</head>
+<body>
+
+<h1 th:text="${loggedUser.getName()}"></h1>
+<h1 th:text="${loggedUser.getAuthorities()}"></h1>
+<h1 th:text="${loggedUser.isAuthenticated()}"></h1>
+<br/>
+<button>
+    <a th:href="@{/logout}">Logout</a>
+</button>
+</body>
+</html>

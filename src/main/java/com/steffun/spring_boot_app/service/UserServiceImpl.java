@@ -5,12 +5,14 @@ import com.steffun.spring_boot_app.model.User;
 import com.steffun.spring_boot_app.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -37,7 +39,11 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public void saveUser(User user, Set<Role> roles) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        if(user.getPassword() == null || user.getPassword().equals("")) {
+            user.setPassword(getUserById(user.getId()).getPassword());
+        } else {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
         user.setRoles(roles);
         userRepository.save(user);
     }
@@ -50,7 +56,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+        return userRepository.findAll(Sort.by("id"));
     }
 
     @Override

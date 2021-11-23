@@ -1,17 +1,85 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
-    <meta charset="UTF-8">
-    <title>Home page of t${}</title>
-</head>
-<body>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<h1 th:text="${loggedUser.getName()}"></h1>
-<h1 th:text="${loggedUser.getAuthorities()}"></h1>
-<h1 th:text="${loggedUser.isAuthenticated()}"></h1>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!--    <link rel="stylesheet" href="style.css">-->
+    <title>Admin panel</title>
+</head>
+<div class="container-fluid">
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="col-md-11" th:text="${loggedUser + ' with roles: ' + userRoles}" style="color: white">
+        </div>
+        <div class="col-md-1">
+            <form th:method="GET" th:action="@{/logout}">
+                <input class="btn btn-dark" type="submit" value="Logout">
+            </form>
+        </div>
+    </nav>
+    <div class="row">
+        <div class="col-md-2">
+            <div class="list-group">
+                <a th:href="@{/admin}" th:if="${isAdmin}" class="list-group-item list-group-item-action">Admin</a>
+                <div th:switch="${isAdmin}">
+                    <a th:case="true" th:href="@{userinfo}" class="list-group-item list-group-item-action active">User</a>
+                    <a th:case="null" th:href="@{user}" class="list-group-item list-group-item-action active">User</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-10">
+            <h1>User information page</h1>
+            <div class="tab-content">
+                <div class="panel panel-default" style="border-width: 1px; border-style: solid; border-color: rgb(190,190,190);border-radius: 5px">
+                    <div class="card-header" style="font-weight: bold">About user</div>
+                    <div div class="card-body">
+                        <div role="tabpanel" style="box-sizing: border-box; padding: 20px" class="tab-pane active"
+                             id="usertable">
+                            <table class="table table-striped">
+                                <thead class="thead">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>First name</th>
+                                    <th>Last name</th>
+                                    <th>Age</th>
+                                    <th>Email</th>
+                                    <th>Roles</th>
+                                </tr>
+                                </thead>
+                                <tr th:each="user : ${listUsers}">
+                                    <td th:text="${user.getId()}"></td>
+                                    <td th:text="${user.getFirstName()}"></td>
+                                    <td th:text="${user.getLastName()}"></td>
+                                    <td th:text="${user.getAge()}"></td>
+                                    <td th:text="${user.getUsername()}"></td>
+                                    <td th:text="${user.getRolesToString()}"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
 <br/>
-<button>
-    <a th:href="@{/logout}">Logout</a>
-</button>
+<!--<hr/>-->
+<!--<a th:href="@{/admin/new}">Create user</a>-->
+<!--<br/>-->
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
 </body>
 </html>

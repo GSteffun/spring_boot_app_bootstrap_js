@@ -150,7 +150,7 @@
                                                     <button type="button" class="btn btn-secondary"
                                                             data-dismiss="modal">Close
                                                     </button>
-                                                    <button type="submit" th:form="'deleteUserForm' + ${user.getId()}"
+                                                    <button th:hidden="${loggedUser.equals(user.username)}" type="submit" th:form="'deleteUserForm' + ${user.getId()}"
                                                             class="btn btn-danger"
                                                             id="modalButton">Delete
                                                     </button>

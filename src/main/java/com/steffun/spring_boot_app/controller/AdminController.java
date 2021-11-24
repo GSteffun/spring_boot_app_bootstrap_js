@@ -25,6 +25,7 @@ public class AdminController {
 
     @GetMapping("")
     public String listAllUsers(@ModelAttribute(name = "user") User user,
+                               @ModelAttribute(name = "modalUser") User modalUser,
                                ModelMap modelMap,
                                Authentication authentication) {
         modelMap.addAttribute("loggedUser", authentication.getName());
@@ -52,9 +53,9 @@ public class AdminController {
     }
 
     @PostMapping("/{id}/update")
-    public String updateUser(@ModelAttribute(name = "user") User user,
+    public String updateUser(@ModelAttribute(name = "modalUser") User modalUser,
                              @RequestParam(value = "listRoles", required = false) String[] roles) {
-        userService.saveUser(user, roleService.getRoleSet(roles));
+        userService.saveUser(modalUser, roleService.getRoleSet(roles));
         return "redirect:/admin";
     }
 

@@ -38,13 +38,12 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public void saveUser(User user, Set<Role> roles) {
+    public void saveUser(User user) {
         if(user.getPassword() == null || user.getPassword().equals("")) {
             user.setPassword(getUserById(user.getId()).getPassword());
         } else {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
-        user.setRoles(roles);
         userRepository.save(user);
     }
 

@@ -12,7 +12,7 @@
 </head>
 <div class="container-fluid">
     <nav class="navbar navbar-dark bg-dark">
-        <div class="col-md-11" th:text="${loggedUser + ' with roles: ' + userRoles}" style="color: white">
+        <div class="col-md-11" th:text="${loggedUser.getUsername() + ' with roles: ' + loggedUser.getRolesToString()}" style="color: white">
         </div>
         <div class="col-md-1">
             <form th:method="GET" th:action="@{/logout}">
@@ -26,7 +26,7 @@
                 <a th:href="@{/admin}" th:if="${isAdmin}" class="list-group-item list-group-item-action">Admin</a>
                 <div th:switch="${isAdmin}">
                     <a th:case="true" th:href="@{userinfo}" class="list-group-item list-group-item-action active">User</a>
-                    <a th:case="null" th:href="@{user}" class="list-group-item list-group-item-action active">User</a>
+                    <a th:case="false" th:href="@{user}" class="list-group-item list-group-item-action active">User</a>
                 </div>
             </div>
         </div>
@@ -49,7 +49,7 @@
                                     <th>Roles</th>
                                 </tr>
                                 </thead>
-                                <tr th:each="user : ${listUsers}">
+                                <tr>
                                     <td th:text="${user.getId()}"></td>
                                     <td th:text="${user.getFirstName()}"></td>
                                     <td th:text="${user.getLastName()}"></td>
@@ -67,9 +67,6 @@
 </div>
 </div>
 <br/>
-<!--<hr/>-->
-<!--<a th:href="@{/admin/new}">Create user</a>-->
-<!--<br/>-->
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

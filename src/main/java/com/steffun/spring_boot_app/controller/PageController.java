@@ -40,7 +40,8 @@ public class PageController {
     public String userPage(Authentication auth, ModelMap modelMap) {
         modelMap.addAttribute("loggedUser", userService.getUserByName(auth.getName()));
         modelMap.addAttribute("userRoles", userService.getUserByName(auth.getName()).getRolesToString());
-        modelMap.addAttribute("isAdmin", userService.getUserByName(auth.getName()).getAuthorities().stream().anyMatch(x -> x.getAuthority().equals("ROLE_ADMIN")));
+        modelMap.addAttribute("isAdmin", userService.getUserByName(auth.getName()).getAuthorities().stream()
+                .anyMatch(x -> x.getAuthority().equals("ROLE_ADMIN")));
         modelMap.addAttribute("user", userService.getUserByName(auth.getName()));
         modelMap.addAttribute("listRoles", roleService.getAllRoles());
         return "userinfo";
